@@ -13,6 +13,3 @@ cd ..
 #DL
 docker exec -it lfr.liferay.com tar -czvf volume.tgz -C /opt/liferay/data document_library
 docker cp lfr.liferay.com:/opt/liferay/volume.tgz backup/
-
-
-curl -X POST https://backup-workshop0-prd.lfr.cloud/backup/upload -H 'Content-Type: multipart/form-data' -F 'database=@backup/database.tgz' -F 'volume=@backup/volume.tgz' -u 'workshop0@liferay.com:devcon2019@MAINZ!?'
