@@ -1,0 +1,44 @@
+version: '3.3'
+
+services:
+  dba:
+    container_name: dba.liferay.com
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=lportal
+      - MYSQL_PASSWORD=123456
+      - MYSQL_DATABASE=lportal
+    pid: host
+    privileged: true
+    restart: on-failure
+    image: mysql:5.7.14
+    hostname: dba
+    volumes:
+      - restore:/docker-entrypoint-initdb.d/
+    networks:
+      - backend
+    ports:
+      - '3306:3306'
+
+  lfr:
+    container_name: lfr.liferay.com
+    image: liferay/dxp:7.2.10
+    links:
+      - dba:dba.liferay.com
+    depends_on:
+      - dba
+    volumes:
+      - ./files:/mnt/liferay/files
+    networks:
+      - backend
+      - frontend
+    ports:
+      - '8080:8080'
+
+volumes:
+  backup:
+  restore:
+
+networks:
+  backend:
+  frontend:
