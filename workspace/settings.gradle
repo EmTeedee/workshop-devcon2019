@@ -1,0 +1,4 @@
+include(
+	'apps:smartchat-portlet',
+	'themes:simple-theme'
+)
